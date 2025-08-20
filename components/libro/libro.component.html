@@ -1,0 +1,234 @@
+<div class="min-h-screen bg-gray-900 text-yellow-400">
+  <div class="container mx-auto px-4 py-10">
+
+    <!-- Topbar -->
+    <div class="mb-8 flex items-center justify-between">
+      <button
+        (click)="volver()"
+        class="inline-flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-gray-800 px-4 py-2 text-yellow-300 hover:bg-gray-700 hover:border-yellow-500/50 transition-all"
+      >
+        <span class="text-xl leading-none">←</span>
+        <span class="font-medium">Volver a la lista</span>
+      </button>
+
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-yellow-400">
+        📖 Detalle del Libro
+      </h1>
+    </div>
+
+    <!-- @if (isLoadingLibro()) {
+      <div class="flex items-center justify-center py-24">
+        <div class="rounded-2xl bg-gray-800/60 px-6 py-4 ring-1 ring-yellow-400/20 backdrop-blur">
+          <span class="mr-3 inline-block h-4 w-4 animate-spin rounded-full border-2 border-yellow-400 border-t-transparent"></span>
+          <span class="align-middle text-lg">Cargando libro…</span>
+        </div>
+      </div>
+    } @else if (libro()) { -->
+      <!-- Card principal -->
+      <div class="mx-auto max-w-5xl overflow-hidden rounded-2xl bg-gray-800 shadow-2xl ring-1 ring-yellow-400/10">
+
+        <!-- Hero header -->
+        <div class="relative">
+          <div class="h-28 w-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500"></div>
+
+          <div class="p-6 md:p-8">
+            <div class="relative -mt-16 flex items-start gap-4">
+              <div class="grid h-24 w-24 shrink-0 place-items-center rounded-2xl bg-gray-900 ring-2 ring-yellow-400/50 shadow">
+                <span class="text-4xl">📚</span>
+              </div>
+
+              <div class="min-w-0">
+                <h2 class="truncate text-2xl md:text-3xl font-extrabold text-yellow-200">
+                  {{ 'libro()!.titulo' }}
+                </h2>
+                <p class="mt-1 text-sm md:text-base text-gray-300">por {{ 'libro()!.autor' }}</p>
+
+                <!-- chips -->
+                <div class="mt-3 flex flex-wrap gap-2">
+                  <span class="rounded-full bg-gray-900/80 px-3 py-1 text-xs md:text-sm text-yellow-300 ring-1 ring-yellow-400/20">
+                    📂 {{ 'libro()!.categoria' }}
+                  </span>
+                  <span class="rounded-full bg-gray-900/80 px-3 py-1 text-xs md:text-sm text-yellow-300 ring-1 ring-yellow-400/20">
+                    🏢 {{ 'libro()!.sede' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="px-6 pb-6 md:px-8 md:pb-8">
+
+          <!-- @if (!editando()) { -->
+            <!-- Vista solo lectura -->
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <!-- Tarjeta: Datos editoriales -->
+              <div class="col-span-2 rounded-2xl bg-gray-900/40 p-5 ring-1 ring-yellow-400/10">
+                <h3 class="mb-4 text-sm font-semibold tracking-wider text-yellow-300/80">INFORMACIÓN</h3>
+                <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <dt class="text-xs uppercase text-gray-400">Año de publicación</dt>
+                    <dd class="mt-1 text-lg text-yellow-200">{{ 'libro()!.apublicacion' }}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs uppercase text-gray-400">Editorial</dt>
+                    <dd class="mt-1 text-lg text-yellow-200">{{ 'libro()!.editorial' }}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs uppercase text-gray-400">Categoría</dt>
+                    <dd class="mt-1 text-lg text-yellow-200">{{ 'libro()!.categoria' }}</dd>
+                  </div>
+                  <div>
+                    <dt class="text-xs uppercase text-gray-400">Sede</dt>
+                    <dd class="mt-1 text-lg text-yellow-200">{{ 'libro()!.sede' }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <!-- Tarjeta: Timestamps -->
+              <div class="rounded-2xl bg-gray-900/40 p-5 ring-1 ring-yellow-400/10">
+                <h3 class="mb-4 text-sm font-semibold tracking-wider text-yellow-300/80">ESTADO</h3>
+                <ul class="space-y-3 text-sm">
+                  <!-- @if (libro()!.createdAt) { -->
+                    <li class="flex items-center justify-between rounded-xl bg-gray-800/60 px-3 py-2">
+                      <span class="text-gray-400">Creado</span>
+                      <span class="text-yellow-200">{{ 'formatDate(libro()!.createdAt!)' }}</span>
+                    </li>
+                  <!-- }
+                  @if (libro()!.updatedAt) { -->
+                    <li class="flex items-center justify-between rounded-xl bg-gray-800/60 px-3 py-2">
+                      <span class="text-gray-400">Actualizado</span>
+                      <span class="text-yellow-200">{{ 'formatDate(libro()!.updatedAt!)' }}</span>
+                    </li>
+                  <!-- } -->
+                </ul>
+              </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="mt-8 flex flex-wrap gap-3">
+              <button
+                (click)="iniciarEdicion()"
+                class="inline-flex items-center gap-2 rounded-xl bg-yellow-500 px-5 py-2.5 font-semibold text-gray-900 hover:bg-yellow-400 transition-all"
+              >
+                ✏️ Editar
+              </button>
+
+              <button
+                (click)="eliminarLibro()"
+                [disabled]="eliminando()"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-5 py-2.5 font-semibold text-white hover:bg-red-500 disabled:bg-gray-600 transition-all"
+              >
+                <!-- @if (eliminando()) { 🔄 Eliminando… } @else { 🗑️ Eliminar } -->
+              </button>
+
+              <button
+                (click)="volver()"
+                class="inline-flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-gray-800 px-5 py-2.5 text-yellow-300 hover:bg-gray-700 hover:border-yellow-500/50 transition-all"
+              >
+                📋 Ver lista
+              </button>
+            </div>
+
+          <!-- } @else { -->
+            <!-- Formulario de edición -->
+            <form  class="space-y-6">
+              <!-- Mensaje de Error de Edición -->
+              <!-- @if (errorEdicion()) {
+                <div class="rounded-lg bg-red-900/50 p-4 ring-1 ring-red-500/30">
+                  <p class="text-sm text-red-300">{{ errorEdicion() }}</p>
+                </div>
+              } -->
+
+              <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div class="rounded-2xl bg-gray-900/40 p-5 ring-1 ring-yellow-400/10">
+                  <h3 class="mb-4 text-sm font-semibold tracking-wider text-yellow-300/80">BÁSICOS</h3>
+                  <div class="space-y-4">
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Título</span>
+                      <input
+                        name="titulo" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="Ingresa el título"
+                      >
+                    </label>
+
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Autor</span>
+                      <input
+                         name="autor" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="Nombre del autor"
+                      >
+                    </label>
+
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Año de publicación</span>
+                      <input
+                         name="apublicacion" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="YYYY"
+                      >
+                    </label>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl bg-gray-900/40 p-5 ring-1 ring-yellow-400/10">
+                  <h3 class="mb-4 text-sm font-semibold tracking-wider text-yellow-300/80">CLASIFICACIÓN</h3>
+                  <div class="space-y-4">
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Editorial</span>
+                      <input
+                         name="editorial" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="Nombre de la editorial"
+                      >
+                    </label>
+
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Categoría</span>
+                      <input
+                         name="categoria" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="Ej. Novela"
+                      >
+                    </label>
+
+                    <label class="block">
+                      <span class="text-xs uppercase text-gray-400">Sede</span>
+                      <input
+                         name="sede" required
+                        class="mt-1 w-full rounded-xl bg-gray-800 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                        placeholder="Ej. Atlacomulco"
+                      >
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botonera -->
+              <div class="flex flex-wrap gap-3 pt-2">
+                <button
+                  type="submit"
+
+                  class="inline-flex items-center gap-2 rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-gray-900 hover:bg-yellow-400 disabled:bg-gray-600 transition-all"
+                >
+                  <!-- @if (guardando()) { 🔄 Guardando… } @else { 💾 Guardar cambios } -->
+                </button>
+
+                <button
+                  type="button"
+                  (click)="cancelarEdicion()"
+                  class="inline-flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-gray-800 px-6 py-3 text-yellow-300 hover:bg-gray-700 hover:border-yellow-500/50 transition-all"
+                >
+                  ❌ Cancelar
+                </button>
+              </div>
+            </form>
+          <!-- } -->
+        </div>
+      </div>
+    <!-- } -->
+  </div>
+</div>

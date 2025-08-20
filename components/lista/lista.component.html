@@ -1,0 +1,220 @@
+<div class="min-h-screen bg-gray-900 text-yellow-400">
+  <div class="container mx-auto px-4 py-10">
+
+    <!-- HERO / HEADER -->
+    <header class="mb-10">
+      <div class="rounded-2xl overflow-hidden ring-1 ring-yellow-400/10 shadow-2xl">
+        <div class="h-28 w-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500"></div>
+        <div class="-mt-12 px-6 pb-6 md:px-8">
+          <div class="flex flex-col items-center text-center">
+            <div class="grid place-items-center h-24 w-24 rounded-2xl bg-gray-900 ring-2 ring-yellow-400/60 shadow">
+              <span class="text-4xl">📚</span>
+            </div>
+            <h1 class="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight text-yellow-200">
+              Biblioteca Digital
+            </h1>
+            <p class="mt-2 text-gray-300">Gestiona tu colección de libros</p>
+
+            <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+              <span class="rounded-full bg-gray-800/80 px-3 py-1 text-sm text-yellow-300 ring-1 ring-yellow-400/20">
+                Total: <span class="font-semibold">{{ 'libros().length' }}</span>
+              </span>
+              <!-- @if(!mostrarFormulario()) {
+                <button
+                  (click)="mostrarFormulario.set(true)"
+                  class="rounded-full bg-yellow-500 px-4 py-1.5 text-gray-900 font-semibold hover:bg-yellow-400 transition-all">
+                  ➕ Nuevo Libro
+                </button>
+              } -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- FORMULARIO CREAR -->
+    <section class="mb-10">
+      <div class="rounded-2xl bg-gray-800 ring-1 ring-yellow-400/10 shadow-xl overflow-hidden">
+        <div class="border-b border-yellow-400/10 bg-gray-800/60 px-6 py-4 md:px-8">
+          <h2 class="text-2xl font-semibold">➕ Agregar Nuevo Libro</h2>
+          <p class="text-sm text-gray-400">Completa los campos para registrar un nuevo título</p>
+        </div>
+
+        <div class="p-6 md:p-8">
+          <!-- @if (mostrarFormulario()) { -->
+            <form (ngSubmit)="guardarLibro()" #libroForm="ngForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <!-- Columna 1 -->
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Título del libro</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.titulo" name="titulo" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="Ej. Cien años de soledad"> -->
+              </label>
+
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Autor</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.autor" name="autor" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="Nombre del autor"> -->
+              </label>
+
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Año de publicación</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.apublicacion" name="apublicacion" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="YYYY"> -->
+              </label>
+
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Editorial</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.editorial" name="editorial" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="Nombre de la editorial"> -->
+              </label>
+
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Categoría</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.categoria" name="categoria" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="Ej. Novela"> -->
+              </label>
+
+              <label class="block">
+                <span class="text-xs uppercase text-gray-400">Sede</span>
+                <!-- <input
+                  [(ngModel)]="nuevoLibro.sede" name="sede" required
+                  class="mt-1 w-full rounded-xl bg-gray-700 px-4 py-2.5 text-yellow-300 ring-1 ring-yellow-400/20 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all"
+                  placeholder="Ej. Atlacomulco"> -->
+              </label>
+
+              <!-- Mensaje de Error de Creación -->
+              <!-- @if (errorCreacion()) {
+                <div class="md:col-span-2 rounded-lg bg-red-900/50 p-4 ring-1 ring-red-500/30">
+                  <p class="text-sm text-red-300">{{ errorCreacion() }}</p>
+                </div>
+              } -->
+
+              <div class="md:col-span-2 flex flex-wrap gap-3 pt-2">
+                <!-- <button
+                  type="submit"
+                  [disabled]="!libroForm.form.valid || guardando()"
+                  class="inline-flex items-center gap-2 rounded-xl bg-yellow-500 px-6 py-3 font-semibold text-gray-900 hover:bg-yellow-400 disabled:bg-gray-600 transition-all">
+                  @if (guardando()) { 🔄 Guardando... } @else { 💾 Guardar Libro }
+                </button> -->
+
+                <button
+                  type="button"
+                  (click)="cancelarFormulario()"
+                  class="inline-flex items-center gap-2 rounded-xl border border-yellow-500/30 bg-gray-800 px-6 py-3 text-yellow-300 hover:bg-gray-700 hover:border-yellow-500/50 transition-all">
+                  ❌ Cancelar
+                </button>
+              </div>
+            </form>
+          <!-- } @else { -->
+            <div class="grid place-items-center py-6">
+              <!-- <button
+                (click)="mostrarFormulario.set(true)"
+                class="rounded-xl bg-yellow-600 px-6 py-2 font-semibold text-gray-900 hover:bg-yellow-500 transition-all">
+                ➕ Nuevo Libro
+              </button> -->
+              <p class="mt-3 text-sm text-gray-400">Haz clic para comenzar a registrar títulos</p>
+            </div>
+          <!-- } -->
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTA -->
+    <section>
+      <div class="rounded-2xl bg-gray-800 ring-1 ring-yellow-400/10 shadow-xl p-6 md:p-8">
+        <div class="mb-6 flex items-center justify-between gap-4">
+          <h2 class="text-2xl font-semibold">📋 Lista de Libros</h2>
+        </div>
+
+        <!-- @if (isLoadingLibros()) { -->
+          <div class="flex justify-center items-center py-16">
+            <div class="rounded-2xl bg-gray-800/60 px-6 py-4 ring-1 ring-yellow-400/20 backdrop-blur">
+              <span class="mr-3 inline-block h-4 w-4 animate-spin rounded-full border-2 border-yellow-400 border-t-transparent"></span>
+              <span class="align-middle text-lg">Cargando libros…</span>
+            </div>
+          </div>
+        <!-- } @else if (hasErrorLibros()) { -->
+          <div class="grid place-items-center py-16">
+            <div class="rounded-2xl border border-dashed border-red-400/30 bg-gray-900/40 p-8 text-center">
+              <p class="text-red-400">❌ Ocurrió un error al cargar los libros.</p>
+              <button
+                (click)="libroService.refetchLibros()"
+                class="mt-4 rounded-xl bg-yellow-600 px-5 py-2 font-semibold text-gray-900 hover:bg-yellow-500 transition-all">
+                🔄 Reintentar
+              </button>
+            </div>
+          </div>
+        <!-- } @else if (libros().length === 0) { -->
+          <div class="grid place-items-center py-16">
+            <div class="rounded-2xl border border-dashed border-yellow-400/30 bg-gray-900/40 p-8 text-center">
+              <p class="text-gray-400">📚 No hay libros registrados aún</p>
+              <button
+                (click)="mostrarFormulario.set(true)"
+                class="mt-4 rounded-xl bg-yellow-600 px-5 py-2 font-semibold text-gray-900 hover:bg-yellow-500 transition-all">
+                ➕ Agregar el primero
+              </button>
+            </div>
+          </div>
+        <!-- } @else { -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- @for (libro of libros(); track libro._id) { -->
+              <article class="group overflow-hidden rounded-2xl bg-gray-700 ring-1 ring-yellow-400/10 shadow hover:shadow-2xl transition-all">
+                <!-- top accent -->
+                <div class="h-1 w-full bg-gradient-to-r from-yellow-700 via-yellow-600 to-yellow-500"></div>
+
+                <div class="p-6">
+                  <div class="mb-4">
+                    <h3 class="text-xl font-bold text-yellow-300 group-hover:text-yellow-200 transition-colors">
+                      {{ 'libro.titulo' }}
+                    </h3>
+                    <p class="text-gray-300"><span class="text-yellow-400">✍️ Autor:</span> {{ 'libro.autor' }}</p>
+                    <p class="text-gray-300"><span class="text-yellow-400">📅 Año:</span> {{ 'libro.apublicacion' }}</p>
+                    <p class="text-gray-300"><span class="text-yellow-400">🏢 Editorial:</span> {{ 'libro.editorial' }}</p>
+                    <p class="text-gray-300"><span class="text-yellow-400">📂 Categoría:</span> {{ 'libro.categoria' }}</p>
+                    <p class="text-gray-300"><span class="text-yellow-400">🏢 Sede:</span> {{ 'libro.sede' }}</p>
+
+                    <!-- @if (libro.createdAt) {
+                      <p class="text-gray-400 text-xs mt-3">
+                        <span class="text-yellow-400">📅 Creado:</span> {{ formatDate(libro.createdAt) }}
+                      </p>
+                    } -->
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <!-- <button
+                      (click)="verDetalle(libro._id!)"
+                      class="flex-1 rounded-xl bg-yellow-500 px-4 py-2 font-semibold text-gray-900 hover:bg-yellow-400 transition-all">
+                      👁️ Ver Detalle
+                    </button>
+
+                    <button
+                      (click)="eliminarLibro(libro._id!)"
+                      [disabled]="eliminando() === libro._id"
+                      class="rounded-xl bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-500 disabled:bg-gray-600 transition-all">
+                      @if (eliminando() === libro._id) { 🔄 } @else { 🗑️ }
+                    </button> -->
+                  </div>
+                </div>
+              </article>
+            <!-- } -->
+          </div>
+        <!-- } -->
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-8 text-center text-gray-400">
+        <p>Total de libros: <span class="text-yellow-400 font-semibold">{{ libros().length }}</span></p>
+      </footer>
+    </section>
+  </div>
+</div>
